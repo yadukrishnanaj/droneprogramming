@@ -1,0 +1,23 @@
+#!/bin/bash
+/usr/local/bin/dronekit-sitl copter --home=44.5013,-88.062,0,180&
+
+
+sleep 5
+ 
+/usr/local/bin/QGC.appimage 2>/dev/null&
+
+sleep 5
+
+screen -dm mavproxy.py --master=tcp:127.0.0.1:5760 --out=127.0.0.1:14550 --out:127.0.0.1:5762
+
+/usr/bin/python "$1" --connect 127.0.0.1:5762
+
+function finish{
+
+        kill -9 $(ps -ef | grep QG | awk -F' ' '{print $2}')
+        kill -9 $(ps -ef | grep ardu | awk -F' ' '{print $2}')
+        kill -9 $(ps -ef | grep mav | awk -F' ' '{print $2}')
+
+
+}
+trap finish EXIT

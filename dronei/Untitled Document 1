@@ -1,0 +1,2 @@
+mavproxy.py --master=/dev/ttyAMA0 --baudrate 57600 --aircraft MyCopter
+mavproxy.py --master=/dev/serial0 --baudrate 57600 --arducopter MyCopter
